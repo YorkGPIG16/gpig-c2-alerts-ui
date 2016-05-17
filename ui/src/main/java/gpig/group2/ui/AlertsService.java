@@ -1,10 +1,10 @@
 package gpig.group2.ui;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,25 +16,27 @@ public class AlertsService {
 	private LoggerService loggerService;
 
 	private Map<Integer, Alert> unactionedAlerts = new HashMap<>();
+	private Map<Integer, Alert> actionedAlerts = new HashMap<>();
 
-	public synchronized void addAlert(Alert alert) {
-		unactionedAlerts.put(alert.getId(), alert);
+	public synchronized void addAlerts(List<Alert> alerts) {
+		for (Alert alert : alerts) {
+			unactionedAlerts.put(alert.getId(), alert);
+		}
 	}
 
-	public synchronized void actionAlert(int alertId) {
+	public synchronized void actionAlert(int alertId, AlertAction action) {
 		Alert alert = unactionedAlerts.get(alertId);
-		alert.setActioned(true);
+		alert.setActioned(action);
 		loggerService.logActionedAlert(alert);
 		unactionedAlerts.remove(alertId);
+		actionedAlerts.put(alertId, alert);
 	}
 
-	public synchronized Collection<Alert> getUnActionedAlerts() {
-		return unactionedAlerts.values();
+	public synchronized List<Alert> getUnActionedAlerts() {
+		return new ArrayList<>(unactionedAlerts.values());
 	}
-	
-	@PostConstruct
-	public void postConstruct() {
-		unactionedAlerts.put(1, new Alert(1, "alert 1", AlertPriority.FIVE, false));
-		unactionedAlerts.put(2, new Alert(2, "alert 2", AlertPriority.FOUR, false));
+
+	public synchronized List<Alert> getActionedAlerts() {
+		return new ArrayList<>(actionedAlerts.values());
 	}
 }

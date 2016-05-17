@@ -5,9 +5,9 @@ public class Alert {
 	private int id;
 	private String text;
 	private AlertPriority priority;
-	private boolean actioned;
+	private AlertAction actioned;
 
-	public Alert(int id, String text, AlertPriority priority, boolean actioned) {
+	public Alert(int id, String text, AlertPriority priority, AlertAction actioned) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -15,6 +15,9 @@ public class Alert {
 		this.actioned = actioned;
 	}
 	
+	public Alert() {
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -39,11 +42,11 @@ public class Alert {
 		this.priority = priority;
 	}
 
-	public boolean isActioned() {
+	public AlertAction getActioned() {
 		return actioned;
 	}
 
-	public void setActioned(boolean actioned) {
+	public void setActioned(AlertAction actioned) {
 		this.actioned = actioned;
 	}
 }

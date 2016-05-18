@@ -2,50 +2,40 @@ define([
 	"underscore",
 	"jquery",
 	"react",
-	"reactdom"
+	"reactdom",
+    "jsx!AlertsUi"
 ],
-function (_, $, React, ReactDOM) {
+function (_, $, React, ReactDOM, AlertsUi) {
 	
 	var alerts = [];
-
-	var AlertLi = React.createClass({
-	  render: function() {
-	    return (
-	      <li>
-	        ALERT: {this.props.alertText}
-	      </li>
-	    );
-	  }
-	});
-
-	var AlertsList = React.createClass({
-	  render: function() {
-	    return (
-	        <ul>
-	            {this.props.alerts.map(function(alert) {
-	                return <AlertLi key={alert.id} alertText={alert.text} />;
-	            })}
-	        </ul>  
-	    );
-	  }
-	});
-
-
+	
+	var alertSort = function(alert) {
+        switch(alert.priority) {
+            case "HIGH":
+                return 1;
+                break;
+            case "MEDIUM":
+                return 2;
+                break;
+            case "LOW":
+                return 3;
+                break;
+        };
+    };
+	
 	function getNewAlerts() {
-	    $.get("http://localhost:10080/GPIGGroup2UI/app/alerts",
-	        null,
-	        function(data) {
-	            alerts = data;
-	            ReactDOM.render(
-	    <AlertsList alerts={alerts} />,
-	    document.getElementById('AlertsRoot')
-	  );
-	            setTimeout(getNewAlerts, 1000);
-	        });
+        $.get(config.alertsUrl,
+            null,
+            function(data) {
+                alerts = _.sortBy(data, alertSort);
+                ReactDOM.render(
+                   <AlertsUi alerts={alerts} />,
+                   document.getElementById('AlertsRoot')
+            );
+            setTimeout(getNewAlerts, 500);
+        });
 	}
 
-	getNewAlerts();
-	
 	return function () {
 		getNewAlerts();
 	}

@@ -1,4 +1,4 @@
-package gpig.group2.ui;
+package gpig.group2.ui.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import gpig.group2.models.alerts.Action;
+import gpig.group2.models.alerts.ActionStatus;
 import gpig.group2.models.alerts.AlertMessage;
 import gpig.group2.models.alerts.Priority;
+import gpig.group2.ui.model.Alert;
+import gpig.group2.ui.model.AlertAction;
+import gpig.group2.ui.model.AlertPriority;
 
 @Service
 public class AlertsMessageConverterService {
@@ -22,7 +26,10 @@ public class AlertsMessageConverterService {
 			alert.setId(inAlert.id);
 			alert.setText(inAlert.message);
 			alert.setPriority(convertAlertPriorityInbound(inAlert));
-			alert.setActioned(convertActionedInbound(inAlert));
+			alert.setActioned(convertActionStatusInbound(inAlert));
+			if (inAlert.action != null) {
+				alert.setActionText(inAlert.action.message);
+			}
 
 			alerts.add(alert);
 		}
@@ -40,23 +47,27 @@ public class AlertsMessageConverterService {
 			msgAlert.id = alert.getId();
 			msgAlert.message = alert.getText();
 			msgAlert.priority = convertPriorityOutbound(alert);
-			msgAlert.action = convertActionedOutbound(alert);
+			msgAlert.action = new Action();
+			msgAlert.action.status = convertActionStatusOutbound(alert);
+			msgAlert.action.message = alert.getActionText();
 			msg.alerts.add(msgAlert);
 		}
 
 		return msg;
 	}
 
-	private AlertAction convertActionedInbound(gpig.group2.models.alerts.Alert inAlert) {
-		switch (inAlert.action) {
+	private AlertAction convertActionStatusInbound(gpig.group2.models.alerts.Alert inAlert) {
+		if (inAlert.action == null) {
+			return AlertAction.NOT_ACTIONED; 
+		}
+		
+		switch (inAlert.action.status) {
 			case ACTION_ACTIONED:
 				return AlertAction.ACTIONED;
 			case ACTION_IGNORE:
 				return AlertAction.IGNORED;
-			case ACTION_NOT_ACTIONED:
-				return AlertAction.NOT_ACTIONED;
 			default:
-				return null;
+				return AlertAction.NOT_ACTIONED;
 		}
 	}
 
@@ -73,14 +84,14 @@ public class AlertsMessageConverterService {
 		}
 	}
 
-	private Action convertActionedOutbound(Alert alert) {
+	private ActionStatus convertActionStatusOutbound(Alert alert) {
 		switch (alert.getActioned()) {
 			case ACTIONED:
-				return Action.ACTION_ACTIONED;
+				return ActionStatus.ACTION_ACTIONED;
 			case IGNORED:
-				return Action.ACTION_IGNORE;
+				return ActionStatus.ACTION_IGNORE;
 			case NOT_ACTIONED:
-				return Action.ACTION_NOT_ACTIONED;
+				return null;
 			default:
 				return null;
 		}

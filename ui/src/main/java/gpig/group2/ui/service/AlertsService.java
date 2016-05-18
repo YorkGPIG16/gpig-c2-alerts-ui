@@ -1,4 +1,4 @@
-package gpig.group2.ui;
+package gpig.group2.ui.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import gpig.group2.ui.model.Alert;
+import gpig.group2.ui.model.AlertAction;
 
 @Service
 public class AlertsService {
@@ -24,14 +27,16 @@ public class AlertsService {
 		}
 	}
 
-	public synchronized void actionAlert(int alertId, AlertAction action) {
+	public synchronized void actionAlert(int alertId, AlertAction action, String actionText) {
 		Alert alert = unactionedAlerts.get(alertId);
 		alert.setActioned(action);
+		alert.setActionText(actionText);
+		
 		loggerService.logActionedAlert(alert);
 		unactionedAlerts.remove(alertId);
 		actionedAlerts.put(alertId, alert);
 	}
-
+	
 	public synchronized List<Alert> getUnActionedAlerts() {
 		return new ArrayList<>(unactionedAlerts.values());
 	}

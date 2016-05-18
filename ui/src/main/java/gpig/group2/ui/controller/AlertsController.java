@@ -1,6 +1,5 @@
-package gpig.group2.ui;
+package gpig.group2.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import gpig.group2.models.alerts.AlertMessage;
+import gpig.group2.ui.model.Alert;
+import gpig.group2.ui.service.AlertsMessageConverterService;
+import gpig.group2.ui.service.AlertsService;
 
 @Controller
 @RequestMapping("/")
@@ -39,8 +41,14 @@ public class AlertsController {
 	public String receiveAlerts(@RequestBody AlertMessage msg) {
 		List<Alert> alerts = alertsMessageConverterService.convertAlertMessageToAlerts(msg);
 		alertsService.addAlerts(alerts);
-		
 		return "Received";
+	}
+	
+	@RequestMapping(value = "/alerts/action", consumes = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public String receiveAlerts(@RequestBody Alert alert) {
+		alertsService.actionAlert(alert.getId(), alert.getActioned(), alert.getActionText());
+		return "Actioned";
 	}
 	
 	@RequestMapping(value = "/actionedAlerts", produces = "application/xml", method = RequestMethod.GET)

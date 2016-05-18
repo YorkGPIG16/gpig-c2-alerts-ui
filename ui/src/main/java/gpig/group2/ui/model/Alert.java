@@ -1,4 +1,4 @@
-package gpig.group2.ui;
+package gpig.group2.ui.model;
 
 public class Alert {
 
@@ -6,6 +6,7 @@ public class Alert {
 	private String text;
 	private AlertPriority priority;
 	private AlertAction actioned;
+	private String actionText;
 
 	public Alert(int id, String text, AlertPriority priority, AlertAction actioned) {
 		super();
@@ -14,7 +15,15 @@ public class Alert {
 		this.priority = priority;
 		this.actioned = actioned;
 	}
-	
+
+	public String getActionText() {
+		return actionText;
+	}
+
+	public void setActionText(String actionText) {
+		this.actionText = actionText;
+	}
+
 	public Alert() {
 	}
 
@@ -48,5 +57,11 @@ public class Alert {
 
 	public void setActioned(AlertAction actioned) {
 		this.actioned = actioned;
+	}
+
+	@Override
+	public String toString() {
+		return "Alert [id=" + id + ", text=" + text + ", priority=" + priority + ", actioned=" + actioned
+				+ ", actionText=" + actionText + "]";
 	}
 }

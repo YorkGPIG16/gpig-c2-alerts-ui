@@ -1,0 +1,9 @@
+{
+  "name": "gpig-group2-ui",
+  "private": true,
+  "dependencies": {
+    "requirejs-react-jsx": "^1.0.2",
+    "underscore": "^1.8.3",
+    "requirejs": "^2.2.0"
+  }
+}

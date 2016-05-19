@@ -1,8 +1,8 @@
 define([
     "underscore",
     "react",
-    "jsx!AlertsList",
-    "jsx!ActionDialog"
+    "requirejs-react-jsx!AlertsList",
+    "requirejs-react-jsx!ActionDialog"
 ],
 function (_, React, AlertsList, ActionDialog) {
     

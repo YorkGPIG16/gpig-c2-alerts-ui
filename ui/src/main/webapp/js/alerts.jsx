@@ -3,7 +3,7 @@ define([
 	"jquery",
 	"react",
 	"reactdom",
-    "jsx!AlertsUi"
+    "requirejs-react-jsx!AlertsUi"
 ],
 function (_, $, React, ReactDOM, AlertsUi) {
 	

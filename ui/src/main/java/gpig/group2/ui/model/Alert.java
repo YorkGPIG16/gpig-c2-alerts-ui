@@ -2,6 +2,8 @@ package gpig.group2.ui.model;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Alert {
 
 	private int id;
@@ -9,7 +11,11 @@ public class Alert {
 	private AlertPriority priority;
 	private AlertAction actioned;
 	private String actionText;
+	
+	@JsonIgnore
 	private DateTime createdDate;
+	
+	@JsonIgnore
 	private DateTime lastUpgradeTime;
 
 	public Alert() {

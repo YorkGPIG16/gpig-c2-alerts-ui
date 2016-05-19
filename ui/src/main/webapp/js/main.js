@@ -1,5 +1,5 @@
 define([
-	"jsx!alerts"
+	"requirejs-react-jsx!alerts"
 ],
 function (alerts) {
 		

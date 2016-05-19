@@ -13,7 +13,7 @@ config.alertsUrl = config.serverBase + "alerts";
 config.actionUrl = config.serverBase + "alerts/action";
 </script>
 <script src="../js/requireConfig.js" type="text/javascript"></script>
-<script src="../js/lib/requirejs_2.2.0.js" data-main="../js/main" type="text/javascript"></script>
+<script src="../bower_components/requirejs/require.js" data-main="../js/main" type="text/javascript"></script>
 <link href="../styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>

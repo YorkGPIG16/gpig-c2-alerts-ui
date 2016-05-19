@@ -1,6 +1,6 @@
 define([
     "react",
-    "jsx!AlertLi",
+    "requirejs-react-jsx!AlertLi",
 ],
 function (React, AlertLi) {
     

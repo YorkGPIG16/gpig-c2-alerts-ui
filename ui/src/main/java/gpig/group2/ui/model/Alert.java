@@ -1,5 +1,7 @@
 package gpig.group2.ui.model;
 
+import org.joda.time.DateTime;
+
 public class Alert {
 
 	private int id;
@@ -7,13 +9,40 @@ public class Alert {
 	private AlertPriority priority;
 	private AlertAction actioned;
 	private String actionText;
+	private DateTime createdDate;
+	private DateTime lastUpgradeTime;
+
+	public Alert() {
+		setCreatedDate();
+		lastUpgradeTime = createdDate;
+	}
 
 	public Alert(int id, String text, AlertPriority priority, AlertAction actioned) {
 		super();
+		
 		this.id = id;
 		this.text = text;
 		this.priority = priority;
 		this.actioned = actioned;
+
+		setCreatedDate();
+		lastUpgradeTime = createdDate;
+	}
+	
+	public DateTime getLastUpgradeTime() {
+		return lastUpgradeTime;
+	}
+	
+	public void setLastUpgradeTime(DateTime lastUpgradeTime) {
+		this.lastUpgradeTime = lastUpgradeTime;
+	}
+	
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	private void setCreatedDate() {
+		createdDate = new DateTime();
 	}
 
 	public String getActionText() {
@@ -22,9 +51,6 @@ public class Alert {
 
 	public void setActionText(String actionText) {
 		this.actionText = actionText;
-	}
-
-	public Alert() {
 	}
 
 	public String getText() {

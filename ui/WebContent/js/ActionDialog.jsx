@@ -25,7 +25,7 @@ function (_, $, React) {
             actionAlert.actioned = "ACTIONED";
             actionAlert.actionText = this.state.actionText;
             
-            jQuery.ajax({
+            $.ajax({
                 url: config.actionUrl,
                 headers: { 
                     "Content-Type": "application/json" 

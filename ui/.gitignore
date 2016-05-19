@@ -2,6 +2,7 @@
 /target/
 /.classpath
 /.project
-/WebContent/WEB-INF/lib/
-/WebContent/js/lib/
+target-grunt/npm-debug.log
+src/main/webapp/node_modules
+src/main/webapp/bower_components
 

@@ -19,32 +19,39 @@ public class AlertsService {
 
 	@Autowired
 	private LoggerService loggerService;
-	
+
 	@Value("${alert.upgradeSeconds}")
 	private long upgradeSeconds;
 
 	private Map<Integer, Alert> unactionedAlerts = new HashMap<>();
 	private Map<Integer, Alert> actionedAlerts = new HashMap<>();
+	private int alertIdCntr = 0;
 
 	public synchronized void addAlerts(List<Alert> alerts) {
+
 		for (Alert alert : alerts) {
-			unactionedAlerts.put(alert.getId(), alert);
+			int id = alertIdCntr;
+			alertIdCntr++; // Ignore any incoming alert ID
+			alert.setId(id);
+			unactionedAlerts.put(id, alert);
 		}
 	}
 
 	public synchronized void actionAlert(int alertId, AlertAction action, String actionText) {
+
 		Alert alert = unactionedAlerts.get(alertId);
 		alert.setActioned(action);
 		alert.setActionText(actionText);
-		
+
 		loggerService.logActionedAlert(alert);
 		unactionedAlerts.remove(alertId);
 		actionedAlerts.put(alertId, alert);
 	}
-	
+
 	public synchronized List<Alert> getUnActionedAlerts() {
+
 		DateTime now = new DateTime();
-		
+
 		ArrayList<Alert> alerts = new ArrayList<>(unactionedAlerts.values());
 		for (Alert alert : alerts) {
 			if (now.getMillis() - alert.getLastUpgradeTime().getMillis() >= upgradeSeconds * 1000) {
@@ -53,11 +60,12 @@ public class AlertsService {
 				alert.setLastUpgradeTime(now);
 			}
 		}
-		
+
 		return alerts;
 	}
 
 	private AlertPriority upgradePriority(Alert alert) {
+
 		switch (alert.getPriority()) {
 			case MEDIUM:
 				return AlertPriority.HIGH;
@@ -69,6 +77,7 @@ public class AlertsService {
 	}
 
 	public synchronized List<Alert> getActionedAlerts() {
+
 		return new ArrayList<>(actionedAlerts.values());
 	}
 }

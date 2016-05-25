@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Alert {
 
-	private int id;
+	private Integer id;
 	private String text;
 	private AlertPriority priority;
 	private AlertAction actioned;
@@ -23,9 +23,7 @@ public class Alert {
 		lastUpgradeTime = createdDate;
 	}
 
-	public Alert(int id, String text, AlertPriority priority, AlertAction actioned) {
-		super();
-		
+	public Alert(Integer id, String text, AlertPriority priority, AlertAction actioned) {
 		this.id = id;
 		this.text = text;
 		this.priority = priority;
@@ -67,11 +65,11 @@ public class Alert {
 		this.text = alertText;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

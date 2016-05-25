@@ -46,7 +46,7 @@ public class AlertsController {
 	
 	@RequestMapping(value = "/alerts/action", consumes = "application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public String receiveAlerts(@RequestBody Alert alert) {
+	public String actionAlert(@RequestBody Alert alert) {
 		alertsService.actionAlert(alert.getId(), alert.getActioned(), alert.getActionText());
 		return "Actioned";
 	}

@@ -81,3 +81,11 @@ background: linear-gradient(to bottom,  #e0f3fa 0%,#d8f0fc 50%,#b8e2f6 51%,#b6df
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0f3fa', endColorstr='#b6dffd',GradientType=0 ); /* IE6-9 */
 color: black;
 }
+
+#AlertsRoot ul#AlertsList li.alert .alertText {
+	float: left;
+}
+
+#AlertsRoot ul#AlertsList li.alert .alertImageUrl {
+	float: right;
+}

@@ -16,6 +16,8 @@ import gpig.group2.ui.model.AlertPriority;
 @Service
 public class AlertsMessageConverterService {
 
+	private static final String IMAGE_TAG = "#image:";
+
 	public List<Alert> convertAlertMessageToAlerts(AlertMessage msg) {
 
 		List<Alert> alerts = new ArrayList<>();
@@ -24,9 +26,15 @@ public class AlertsMessageConverterService {
 			Alert alert = new Alert();
 
 			alert.setId(inAlert.id);
-			alert.setText(inAlert.message);
 			alert.setPriority(convertAlertPriorityInbound(inAlert));
 			alert.setActioned(convertActionStatusInbound(inAlert));
+
+			String[] components = inAlert.message.split(IMAGE_TAG);
+			alert.setText(components[0]);
+			if (components.length > 1) {
+				alert.setImageUrl(components[1]);
+			}
+
 			if (inAlert.action != null) {
 				alert.setActionText(inAlert.action.message);
 			}
@@ -57,10 +65,11 @@ public class AlertsMessageConverterService {
 	}
 
 	private AlertAction convertActionStatusInbound(gpig.group2.models.alerts.Alert inAlert) {
+
 		if (inAlert.action == null) {
-			return AlertAction.NOT_ACTIONED; 
+			return AlertAction.NOT_ACTIONED;
 		}
-		
+
 		switch (inAlert.action.status) {
 			case ACTION_ACTIONED:
 				return AlertAction.ACTIONED;
@@ -72,6 +81,7 @@ public class AlertsMessageConverterService {
 	}
 
 	private AlertPriority convertAlertPriorityInbound(gpig.group2.models.alerts.Alert inAlert) {
+
 		switch (inAlert.priority) {
 			case PRIORITY_LOW:
 				return AlertPriority.LOW;
@@ -85,6 +95,7 @@ public class AlertsMessageConverterService {
 	}
 
 	private ActionStatus convertActionStatusOutbound(Alert alert) {
+
 		switch (alert.getActioned()) {
 			case ACTIONED:
 				return ActionStatus.ACTION_ACTIONED;
@@ -98,6 +109,7 @@ public class AlertsMessageConverterService {
 	}
 
 	private Priority convertPriorityOutbound(Alert alert) {
+
 		switch (alert.getPriority()) {
 			case HIGH:
 				return Priority.PRIORITY_HIGH;

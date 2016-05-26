@@ -39,9 +39,14 @@ function (_, React) {
             }
             
             return (
-                <li className={classNames} onClick={this.handleClick}>
-                    {/**{this.props.alert.id}:**/}
-                    {this.props.alert.text}
+                <li className={classNames}>
+                    <div onClick={this.handleClick} className="alertText">
+                        {this.props.alert.text}
+                    </div>
+                    <div className="alertImageUrl">
+                        <a href={this.props.alert.imageUrl} target="_blank">See image</a>
+                    </div>
+                    <div style={{clear:"left"}}></div>
                 </li>
             );
         }

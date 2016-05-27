@@ -43,9 +43,13 @@ function (_, React) {
                     <div onClick={this.handleClick} className="alertText">
                         {this.props.alert.text}
                     </div>
-                    <div className="alertImageUrl">
-                        <a href={this.props.alert.imageUrl} target="_blank">See image</a>
-                    </div>
+                    {
+                        !_.isEmpty(this.props.alert.imageUrl) ?
+                            <div className="alertImageUrl">
+                                <a href={this.props.alert.imageUrl} target="_blank">See image</a>
+                            </div> :
+                            null
+                    }
                     <div style={{clear:"left"}}></div>
                 </li>
             );

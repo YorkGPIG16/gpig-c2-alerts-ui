@@ -3,7 +3,7 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gpig.group2</groupId>
-	<artifactId>ui</artifactId>
+	<artifactId>alerts-ui</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GPIG Group 2 UI</name>

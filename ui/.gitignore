@@ -4,5 +4,5 @@
 /.project
 target-grunt/npm-debug.log
 src/main/webapp/node_modules
-src/main/webapp/offlinejs
+
 
